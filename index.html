@@ -1,148 +1,477 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <meta charset="UTF-8">
   <title>Yugen Cosplay Community</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
 
-    body {
-      background: #000;
-      color: white;
-    }
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+    body{background:#000;color:white;}
 
     /* NAVBAR */
-    header {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      padding: 20px 60px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(0,0,0,0.6);
-      z-index: 100;
+    header{
+      position:fixed;
+      top:0;
+      width:100%;
+      padding:20px 60px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background:rgba(0,0,0,0.7);
+      backdrop-filter: blur(6px);
+      z-index:100;
     }
 
-    header h2 {
-      color: #f5b67f;
+    header h2{color:#f5b67f;}
+
+    nav a{
+      color:white;
+      text-decoration:none;
+      margin-left:25px;
+      font-size:14px;
+      transition:.3s;
     }
 
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin-left: 25px;
-      font-size: 14px;
-    }
-
-    nav a:hover {
-      color: #f5b67f;
-    }
+    nav a:hover{color:#f5b67f;}
 
     /* HERO */
-    .hero {
-      height: 100vh;
-      background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
-        url('https://image2url.com/r2/default/images/1768464338482-a7e65913-d577-4d0e-a18e-3d78dc16f023.jpeg') center/cover no-repeat;
+    .hero{
+      height:100vh;
+      background:
+      linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.75)),
+      url('https://image2url.com/r2/default/images/1768464338482-a7e65913-d577-4d0e-a18e-3d78dc16f023.jpeg') center/cover no-repeat;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 80px;
+    }
+
+    .hero-text{max-width:520px;}
+
+    .hero-text h1{
+      font-size:48px;
+      font-weight:700;
+    }
+
+    .hero-text h1 span{color:#f5b67f;}
+
+    .hero-text p{
+      margin:20px 0;
+      font-size:15px;
+      color:#ddd;
+    }
+
+    .btn-join{
+      padding:10px 25px;
+      background:#f5b67f;
+      border-radius:25px;
+      color:black;
+      text-decoration:none;
+      font-weight:600;
+    }
+
+    .hero-logo img{
+      width:300px;
+      border-radius:50%;
+      border:8px solid #3a2415;
+    }
+
+    /* SECTION */
+    section{padding:100px 80px;}
+
+    .title{font-size:36px;margin-bottom:10px;}
+    .line{width:80px;height:4px;background:#f5b67f;margin-bottom:30px;}
+
+    /* ABOUT SLIDER */
+    .about-slider{
+      position:relative;
+      max-width:1100px;
+      margin-top:40px;
+      height: 260px; /* fix height to keep layout */
+      overflow: hidden;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 0 80px;
+      justify-content: center;
+      background: #111; /* sedikit background supaya panah terlihat */
+      border-radius: 20px;
     }
 
-    .hero-text {
-      max-width: 500px;
-    }
-
-    .hero-text h1 {
-      font-size: 48px;
-      font-weight: 700;
-    }
-
-    .hero-text h1 span {
-      color: #f5b67f;
-    }
-
-    .hero-text p {
-      margin: 20px 0;
-      font-size: 15px;
-      color: #ddd;
-    }
-
-    .btn {
-      padding: 10px 25px;
-      background: #f5b67f;
-      border: none;
-      border-radius: 25px;
-      color: black;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    .btn:hover {
-      background: #e6a465;
-    }
-
-    /* LOGO BULAT */
-    .hero-logo img {
-      width: 300px;
-      border-radius: 50%;
-      border: 8px solid #3a2415;
-    }
-
-    /* FOOTER SOSMED */
-    .social {
+    .about-slide {
+      opacity: 0;
+      transform: translateX(50px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      display: flex;
+      align-items: center;
+      gap: 50px;
       position: absolute;
-      bottom: 20px;
-      left: 60px;
+      top: 0;
+      left: 50%;
+      transform: translateX(50px) translateX(-50%);
+      width: 100%;
+      max-width: 1100px;
+      padding: 0 60px; /* beri padding kiri kanan supaya ruang untuk panah */
+      box-sizing: border-box;
     }
 
-    .social a {
-      color: white;
-      margin-right: 15px;
-      text-decoration: none;
-      font-size: 20px;
+    .about-slide.active {
+      opacity: 1;
+      transform: translateX(-50%);
+      position: relative;
+      display: flex;
+    }
+
+    /* Animasi masuk dari kiri */
+    .slide-in-left {
+      animation: slideInLeft 0.5s forwards;
+    }
+
+    /* Animasi masuk dari kanan */
+    .slide-in-right {
+      animation: slideInRight 0.5s forwards;
+    }
+
+    @keyframes slideInLeft {
+      0% {
+        opacity: 0;
+        transform: translateX(calc(-50% - 50px));
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(-50%);
+      }
+    }
+
+    @keyframes slideInRight {
+      0% {
+        opacity: 0;
+        transform: translateX(calc(-50% + 50px));
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(-50%);
+      }
+    }
+
+    .about-slide img{
+      width:360px;
+      height:240px;
+      object-fit: contain;
+      border-radius:20px;
+      box-shadow:0 15px 40px rgba(0,0,0,.6);
+      flex-shrink: 0;
+      background: #222;
+    }
+
+    .about-content h3{
+      font-size:28px;
+      margin-bottom:15px;
+      white-space: nowrap;
+    }
+
+    .about-content p{
+      color:#ccc;
+      max-width:500px;
+      line-height:1.7;
+    }
+
+    .about-arrow{
+      position:absolute;
+      top:50%;
+      transform:translateY(-50%);
+      width:48px;
+      height:48px;
+      background:#f5b67f;
+      color:black;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:26px;
+      cursor:pointer;
+      user-select:none;
+      z-index:50;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 0 10px rgba(245,182,127,0.7);
+      /* pindahkan ke dalam slider, beri jarak dari tepi */
+    }
+
+    .about-arrow.left{
+      left: 15px; /* dalam slider */
+    }
+    .about-arrow.right{
+      right: 15px; /* dalam slider */
+    }
+    .about-arrow:hover{
+      background:#e6a465;
+      box-shadow: 0 0 15px rgba(230,164,101,0.9);
+    }
+
+    /* SERVICE */
+    .service-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:25px;
+    }
+
+    .card{
+      background:#111;
+      padding:25px;
+      border-radius:15px;
+      box-shadow:0 10px 30px rgba(0,0,0,.4);
+    }
+
+    /* TEAM */
+    .team-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:25px;
+    }
+
+    .team-card{
+      background:#111;
+      padding:20px;
+      border-radius:15px;
+      text-align:center;
+    }
+
+    /* CONTACT */
+    .contact p{margin-bottom:10px;color:#ccc;}
+
+    footer{
+      text-align:center;
+      padding:25px;
+      background:#000;
+      color:#888;
+      font-size:13px;
     }
   </style>
 </head>
+
 <body>
 
 <header>
   <h2>YUGEN COSPLAY</h2>
   <nav>
-    <a href="#">Home</a>
-    <a href="#">About Us</a>
-    <a href="#">Contact Us</a>
-    <a href="#">Service</a>
-    <a href="#">Our Team</a>
+    <a href="#home">Home</a>
+    <a href="#about">About Us</a>
+    <a href="#service">Service</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="#team">Our Team</a>
+    <a href="#contact">Contact</a>
   </nav>
 </header>
 
-<section class="hero">
+<section class="hero" id="home">
   <div class="hero-text">
     <h1>YUGEN COSPLAY <br><span>COMMUNITY.</span></h1>
-    <p>Bergabung bersama kami sekarang juga dan nikmati keseruan Cosplay.</p>
-    <a href="gallery.html" class="btn-join">Join with us</a>
+    <p>Bergabung bersama kami dan jadilah bagian dari komunitas cosplay yang kreatif dan solid.</p>
+    <a href="gallery.html" class="btn-join">View Gallery</a>
   </div>
-
   <div class="hero-logo">
-    <img src="https://image2url.com/r2/default/images/1768464698924-d1a4d0f4-a35d-4327-9a3e-d3b9d51f93c1.jpeg" alt="Logo">
+    <img src="https://image2url.com/r2/default/images/1768464698924-d1a4d0f4-a35d-4327-9a3e-d3b9d51f93c1.jpeg" alt="Yugen Cosplay Logo">
   </div>
 </section>
 
-<div class="social">
-  <a href="#">🌐</a>
-  <a href="#">📘</a>
-  <a href="#">📸</a>
-  <a href="#">🎵</a>
-</div>
+<!-- ABOUT -->
+<section class="about" id="about">
+  <h2 class="title">About Us</h2>
+  <div class="line"></div>
+
+  <div class="about-slider">
+    <div class="about-arrow left" onclick="prevAbout()">❮</div>
+    <div class="about-arrow right" onclick="nextAbout()">❯</div>
+
+    <div class="about-slide active">
+      <img src="https://image2url.com/r2/default/images/1768531634674-83675cd8-b562-4e98-8aed-87f7db168150.jpeg" alt="Event Cosplay">
+      <div class="about-content">
+        <h3> Yugen cosplay</h3>
+        <p>Yugen Cosplay Community adalah komunitas Cosplay yang Berasal dari Pekanbaru, Didirikan pada tanggal 25 Oktober 2024, dan memiliki tujuan untuk menciptakan Kehidupan Berkomunitas yang aman dan nyaman serta turut mengukir prestasi dalam dunia Cosplay.</p>
+      </div>
+    </div>
+
+    <div class="about-slide">
+      <img src="https://cdn.phototourl.com/uploads/2026-01-16-54e625d3-91bb-47da-9c89-2bdef62e35f7.jpg" alt="Photoshoot">
+      <div class="about-content">
+        <h3> Yugen Cosplay project</h3>
+        <p>adalah sebuah organisasi otonom dibawah naungan Yugen Cosplay Community, organisasi ini berfokus pada project cosplay, dan organisasi ini diberikan hak istimewa, dimana dapat menentukan pemimpin sendiri tanpa campur tangan grub induk..</p>
+      </div>
+    </div>
+
+    <div class="about-slide">
+      <img src="https://cdn.phototourl.com/uploads/2026-01-16-b8a84c8e-97cd-4f83-a901-c8eaf68b4410.jpg" alt="Workshop">
+      <div class="about-content">
+        <h3> Royal Yugen Society</h3>
+        <p>Royal Yugen Society berisi para pengurus yang akan melayani para member, dan juga akan menjaga keamanan, kenyamanan, ketertiban jalan nya komunitas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="service">
+  <h2 class="title">Our Service</h2>
+  <div class="line"></div>
+  <div class="service-grid">
+    <div class="card"><h3>🎉 Event Cosplay</h3><p>Menyelenggarakan event cosplay.</p></div>
+    <div class="card"><h3>📸 Photoshoot</h3><p>Photoshoot profesional.</p></div>
+    <div class="card"><h3>🎓 Workshop</h3><p>Pelatihan cosplay.</p></div>
+  </div>
+</section>
+
+<section id="team">
+  <style>
+    #team {
+      padding: 80px 10%;
+      background: #000;
+      color: #fff;
+    }
+
+    #team .title {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    #team .line {
+      width: 80px;
+      height: 4px;
+      background: #ffa500;
+      margin-bottom: 40px;
+    }
+
+    #team .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 30px;
+    }
+
+    #team .team-card {
+      background: #111;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      transition: 0.3s ease;
+    }
+
+    #team .team-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 25px rgba(255, 165, 0, 0.35);
+    }
+
+    #team .team-card img {
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 15px;
+    }
+
+    #team .team-card h3 {
+      font-size: 18px;
+      color: #ffa500;
+      margin-bottom: 5px;
+    }
+
+    #team .team-card p {
+      font-size: 14px;
+      color: #ccc;
+    }
+  </style>
+
+  <h2 class="title">Our Team</h2>
+  <div class="line"></div>
+
+  <div class="team-grid">
+    <div class="team-card">
+      <img src="https://image2url.com/r2/default/images/1768615243819-101e3293-77ca-4681-8d83-67abd3701267.jpeg" alt="Founder">
+      <h3>Founder</h3>
+      <p>Nama Founder</p>
+    </div>
+
+    <div class="team-card">
+      <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12" alt="Admin">
+      <h3>Admin</h3>
+      <p>Nama Admin</p>
+    </div>
+
+    <div class="team-card">
+      <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2" alt="Creative Team">
+      <h3>Creative Team</h3>
+      <p>Cosplayer & Photographer</p>
+    </div>
+  </div>
+</section>
+
+
+<section class="contact" id="contact">
+  <h2 class="title">Contact Us</h2>
+  <div class="line"></div>
+  <p>Email : yugencosplaycommunity@gmail.com</p>
+  <p>Instagram : @yugencosplay_</p>
+  <p>TikTok : @yugencosplay_</p>
+  <p>WhatsApp : +62 877-6605-9651(Rafi)
+    <p>WhatsApp : +62 831-3699-4932(Angel)
+  </p>
+</section>
+
+<footer>© 2026 Yugen Cosplay Community</footer>
+
+<script>
+  let aboutIndex = 0;
+  const aboutSlides = document.querySelectorAll('.about-slide');
+  let isAnimating = false;
+
+  function showAbout(newIndex, direction = 'right') {
+    if (isAnimating || newIndex === aboutIndex) return;
+    isAnimating = true;
+
+    const currentSlide = aboutSlides[aboutIndex];
+    const nextSlide = aboutSlides[newIndex];
+
+    aboutSlides.forEach(slide => {
+      slide.classList.remove('active', 'slide-in-left', 'slide-in-right');
+      slide.style.opacity = 0;
+      slide.style.position = 'absolute';
+    });
+
+    nextSlide.style.position = 'relative';
+    nextSlide.classList.add('active');
+
+    if (direction === 'right') {
+      nextSlide.classList.add('slide-in-right');
+    } else {
+      nextSlide.classList.add('slide-in-left');
+    }
+
+    setTimeout(() => {
+      aboutIndex = newIndex;
+      isAnimating = false;
+    }, 500);
+  }
+
+  function nextAbout() {
+    const newIndex = (aboutIndex + 1) % aboutSlides.length;
+    showAbout(newIndex, 'right');
+  }
+
+  function prevAbout() {
+    const newIndex = (aboutIndex - 1 + aboutSlides.length) % aboutSlides.length;
+    showAbout(newIndex, 'left');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    aboutSlides.forEach((slide, i) => {
+      if (i === 0) {
+        slide.classList.add('active');
+        slide.style.position = 'relative';
+        slide.style.opacity = 1;
+      } else {
+        slide.style.position = 'absolute';
+        slide.style.opacity = 0;
+      }
+    });
+  });
+</script>
 
 </body>
 </html>
